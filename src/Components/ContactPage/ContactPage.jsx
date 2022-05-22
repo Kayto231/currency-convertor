@@ -1,19 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { sendContactInfoFunction } from '../../redux/actions/contactActions';
 import { TELEGRAM_URL } from '../../URLS/urls';
 import './ContactPage_Style.scss';
 
 const ContactPage = () => {
-  const [emailIsDirty, setEmailIsDirty] = useState(false);
-  const [contentIsDirty, setIsContentDirty] = useState(false);
-  const [emailIsError, setEmailIsError] = useState(false);
-  const [contentIsError, setContentIsError] = useState(false);
-  const [email, setEmail] = useState('');
-  const [content, seContent] = useState('');
+  const dispatch = useDispatch();
 
-  function handleSubmit(e) {
+  const [emailIsDirty, setEmailIsDirty] = useState('cannot be empty.');
+  const [emailIsError, setEmailIsError] = useState(true);
+  const [email, setEmail] = useState('');
+  const [content, setContent] = useState('');
+  const [disabled, setDisabled] = useState(true);
+
+  const [isSuccess, setIsSuccess] = useState('');
+  const [onFailure, setOnFailure] = useState('');
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    await dispatch(sendContactInfoFunction({ email, content }))
+      .then((res) => {
+        setOnFailure('');
+        setIsSuccess(res.message);
+        setEmail('');
+        setContent('');
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsSuccess('');
+        setOnFailure('Somthing went wrong.. Try later');
+      });
   }
+
+  function onChangeEmail(e) {
+    setEmail(e.target.value);
+    const re =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!re.test(String(e.target.value).toLocaleLowerCase())) {
+      setEmailIsError('is incorrect.');
+      if (!e.target.value) {
+        setEmailIsError(' cannot be empty.');
+      }
+    } else {
+      setEmailIsError('');
+    }
+  }
+
+  const blurHandler = (e) => {
+    switch (e.target.name) {
+      case 'email':
+        console.log('yes');
+        return setEmailIsDirty(true);
+      // break;
+      default:
+        return;
+    }
+  };
+
+  useEffect(() => {
+    if (emailIsError) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [emailIsError]);
 
   return (
     <div className="contactPage__container d-column justify-center align-center">
@@ -44,7 +95,13 @@ const ContactPage = () => {
             className="input d-flex"
             type="text"
             name="email"
+            value={email}
+            onBlur={blurHandler}
+            onChange={onChangeEmail}
           />
+          {emailIsError && emailIsDirty && (
+            <label className="text">{emailIsError}</label>
+          )}
         </div>
         <div className="content__block d-flex justify-center align-center">
           <label className="text">Type your comments</label>
@@ -52,12 +109,21 @@ const ContactPage = () => {
             className="textarea d-flex justify-center align-center"
             type="text"
             name="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <button type="submit" className="button__submit" onClick={handleSubmit}>
+        <button
+          disabled={disabled}
+          type="submit"
+          className="button__submit"
+          onClick={handleSubmit}
+        >
           Send your letter!
         </button>
       </form>
+      {isSuccess && <div className="success__message">{isSuccess}</div>}
+      {onFailure && <div className="failure__message">{onFailure}</div>}
     </div>
   );
 };

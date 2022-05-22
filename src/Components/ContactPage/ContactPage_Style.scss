@@ -9,6 +9,14 @@
 .contactPage__container {
   flex: 1 1 auto;
 
+  .failure__message {
+    color: red;
+    font-weight: bold;
+  }
+  .success__message {
+    color: green;
+    font-weight: bold;
+  }
   .contact__block {
     margin-top: 100px;
     height: 200px;
