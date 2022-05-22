@@ -1,0 +1,20 @@
+.apiPage__container {
+  flex: 1 1 auto;
+  .ul {
+    .li__item {
+      margin: 10px;
+      list-style-type: none;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+  .help__block {
+    width: 100%;
+    margin-top: 100px;
+  }
+  .api__block {
+    width: 100%;
+    margin-top: 100px;
+  }
+}

@@ -1,0 +1,39 @@
+.financialnews__block {
+  margin-top: 20px;
+  width: 50%;
+  border: 3px solid grey;
+  height: 800px;
+  max-height: 800px;
+  overflow-y: scroll;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .title {
+    font-size: 22px;
+    padding: 10px;
+    font-weight: bold;
+  }
+  .error__block {
+    height: 90%;
+  }
+  .financial__item {
+    font-size: 20px;
+    cursor: pointer;
+    width: 100%;
+    min-height: 50px;
+    height: fit-content;
+    padding: 10px;
+    border-bottom: 1px solid grey;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .display__none {
+    display: none;
+  }
+  .financialnews__block {
+    margin-top: 60px;
+    width: 100%;
+  }
+}

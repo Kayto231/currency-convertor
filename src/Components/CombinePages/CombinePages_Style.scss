@@ -1,0 +1,17 @@
+.combinepages__container {
+  flex: 1 1 auto;
+  .combinepages {
+    width: 100%;
+    position: relative;
+    .mobile__financial__button {
+      display: flex;
+      width: 200px;
+      height: 40px;
+      position: absolute;
+      outline: none;
+      border: 1px solid grey;
+      background: #fff;
+      border-radius: 15px;
+    }
+  }
+}

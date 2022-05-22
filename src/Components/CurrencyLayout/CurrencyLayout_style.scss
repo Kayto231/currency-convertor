@@ -1,0 +1,46 @@
+.currencylayout__container {
+  width: 50%;
+  margin-top: 100px;
+  position: relative;
+  .mobile__financial__button {
+    display: none;
+  }
+  .currencylayout__text {
+    font-size: 24px;
+    font-weight: bold;
+    .text {
+      font-size: 20px;
+      opacity: 0.5;
+    }
+  }
+  .summary__text {
+    font-size: 20px;
+  }
+  .switch__button {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    top: 100px;
+    left: 85%;
+    transform: rotate(90deg);
+    cursor: pointer;
+  }
+  .description {
+    font-size: 22px;
+    margin-top: 150px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .currencylayout__container {
+    min-width: 375px;
+    padding: 10px;
+    .mobile__financial__button {
+      display: flex;
+    }
+    .switch__button {
+      left: 90%;
+      top: 20%;
+    }
+  }
+}
